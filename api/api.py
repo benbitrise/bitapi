@@ -6,7 +6,7 @@ class API():
         self.token=token
         self.headers={"Authorization": "{}".format(token)}
 
-    def list_builds(self, app_slug, status, after):
+    def list_builds(self, app_slug, status, after, before):
         path = "{}apps/{}/builds".format(self.base_url, app_slug)
     
         payload = {}
@@ -15,6 +15,9 @@ class API():
             payload['status'] = status
         if after is not None:
             payload['after'] = after
+        if before is not None:
+            payload['before'] = before
+
 
         resp = requests.get(path, params = payload, headers=self.headers)
         if resp.status_code != 200:

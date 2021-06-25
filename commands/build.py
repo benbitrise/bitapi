@@ -9,12 +9,13 @@ def build():
 @build.command()
 @click.option('-s', '--status', help="The status of the build: not finished (0), successful (1), failed (2), aborted with failure (3), aborted with success (4)")
 @click.option('-a', '--after', help="builds started after unix timestamp")
+@click.option('-b', '--before', help="builds started after unix timestamp")
 @click.pass_context
-def list(ctx, status, after):
+def list(ctx, status, after, before):
     token = ctx.obj['token']
     app_slug = config.get_app()
     api = API(token)
-    click.echo(api.list_builds(app_slug, status, after))
+    click.echo(api.list_builds(app_slug, status, after, before))
 
 @build.command()
 @click.argument('build-slug')
