@@ -1,5 +1,5 @@
 const commander = require('commander');
-const config = require('./config');
+const { config } = require('./config');
 
 const program = new commander.Command();
 

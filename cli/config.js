@@ -5,22 +5,23 @@ const os = require('os');
 const path = require('path');
 
 const configPath = path.join(os.homedir(), '.bitapi');
+exports.configPath = configPath;
 
 const readConfig = () => fsPromises.readFile(configPath).then((data) => JSON.parse(data));
 
 const writeConfig = (newConfig) => fsPromises.writeFile(configPath, JSON.stringify(newConfig));
 
-module.exports = {
+exports.config = {
   init: () => writeConfig({}),
-  getApp: () => readConfig().then((config) => config.app),
-  setApp: (appSlug) => readConfig().then((config) => {
-    const newConfig = { ...config };
+  getApp: () => readConfig().then((configBody) => configBody.app),
+  setApp: (appSlug) => readConfig().then((configBody) => {
+    const newConfig = { ...configBody };
     newConfig.app = appSlug;
     return writeConfig(newConfig);
   }),
-  getToken: () => readConfig().then((config) => config.token),
-  setToken: (token) => readConfig().then((config) => {
-    const newConfig = { ...config };
+  getToken: () => readConfig().then((configBody) => configBody.token),
+  setToken: (token) => readConfig().then((configBody) => {
+    const newConfig = { ...configBody };
     newConfig.token = token;
     return writeConfig(newConfig);
   }),
