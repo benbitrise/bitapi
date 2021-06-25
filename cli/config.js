@@ -1,47 +1,27 @@
 const fs = require('fs');
+
 const fsPromises = fs.promises;
 const os = require('os');
 const path = require('path');
 
-const _configPath = path.join(os.homedir(), '.bitapi')
+const configPath = path.join(os.homedir(), '.bitapi');
 
+const readConfig = () => fsPromises.readFile(configPath).then((data) => JSON.parse(data));
 
-const _getConfig = () => {
-    return fsPromises.readFile(_configPath).then(data => {
-        return JSON.parse(data)
-    })
-}
+const writeConfig = (newConfig) => fsPromises.writeFile(configPath, JSON.stringify(newConfig));
 
-const _writeConfig = (newConfig) => {
-    return fsPromises.writeFile(_configPath, JSON.stringify(newConfig))
-}
-
-const config = {
-    init: () => {
-        return _writeConfig({})
-    },
-    getApp: () => {
-        return _getConfig().then(config => {
-            return config['app']
-        })
-    },
-    setApp: (appSlug) => {
-        return _getConfig().then(config => {
-            config['app'] = appSlug
-            return _writeConfig(config)
-        })
-    },
-    getToken: () => {
-        return _getConfig().then(config => {
-            return config['token']
-        })
-    },
-    setToken: (token) => {
-        return _getConfig().then(config => {
-            config['token'] = token
-            return _writeConfig(config)
-        })
-    }
-}
-
-module.exports = config;
+module.exports = {
+  init: () => writeConfig({}),
+  getApp: () => readConfig().then((config) => config.app),
+  setApp: (appSlug) => readConfig().then((config) => {
+    const newConfig = { ...config };
+    newConfig.app = appSlug;
+    return writeConfig(newConfig);
+  }),
+  getToken: () => readConfig().then((config) => config.token),
+  setToken: (token) => readConfig().then((config) => {
+    const newConfig = { ...config };
+    newConfig.token = token;
+    return writeConfig(newConfig);
+  }),
+};

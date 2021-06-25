@@ -1,6 +1,6 @@
-const { Command } = require('commander');
+const commander = require('commander');
 
-const program = new Command();
+const program = new commander.Command();
 
 program
   .version('0.0.1')
