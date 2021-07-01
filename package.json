@@ -6,6 +6,7 @@
   "author": "Ben Boral <ben.boral@bitrise.io>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
     "commander": "^8.0.0"
   },
   "scripts": {
