@@ -1,4 +1,3 @@
-// users.test.js
 const axios = require('axios');
 const api = require('./api');
 
