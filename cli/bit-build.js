@@ -17,5 +17,7 @@ program
             console.error(e.message)
         })
     });
-    
+
+program.command('artifact', 'interact with artifacts from builds')
+
 program.parse(process.argv);

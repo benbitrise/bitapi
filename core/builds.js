@@ -1,4 +1,4 @@
-const api = require('./api')
+const api = require('./api/client')
 
 const listBuilds = async (token, appSlug, params = {}) => {
     const path = `apps/${appSlug}/builds`
