@@ -7,7 +7,7 @@ beforeEach(() => {
     apiPaginator.listItems.mockReset();
 });
 
-test('should return all builds on single page', () => {
+test('should return all builds', () => {
     const resp = ['a', 'b']
     apiPaginator.listItems.mockImplementation(() => {
         return Promise.resolve(resp)
