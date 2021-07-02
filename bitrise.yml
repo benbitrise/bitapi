@@ -38,7 +38,7 @@ workflows:
         - command: jest
     - yarn@0:
         inputs:
-        - command: 'token list'
+        - command: 'config list'
     - yarn@0:
         inputs:
         - command: 'config set ''//registry.npmjs.org/:_authToken'' "${NPM_TOKEN}"'
