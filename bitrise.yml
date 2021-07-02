@@ -1,0 +1,46 @@
+---
+format_version: '11'
+default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
+project_type: other
+trigger_map:
+- push_branch: '*'
+  workflow: primary
+- pull_request_source_branch: '*'
+  workflow: primary
+workflows:
+  primary:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6: {}
+    - cache-pull@2: {}
+    - yarn@0:
+        inputs:
+        - cache_local_deps: 'yes'
+        - command: install
+    - yarn@0:
+        inputs:
+        - command: jest
+    - deploy-to-bitrise-io@1: {}
+    - cache-push@2: {}
+  release:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6: {}
+    - cache-pull@2: {}
+    - yarn@0:
+        inputs:
+        - cache_local_deps: 'yes'
+        - command: install
+    - yarn@0:
+        inputs:
+        - command: jest
+    - yarn@0:
+        inputs:
+        - command: publish
+    - deploy-to-bitrise-io@1: {}
+    - cache-push@2: {}
+meta:
+  bitrise.io:
+    machine_type_id: standard
