@@ -21,5 +21,4 @@ module.exports = {
     getInfo: (token, appSlug, buildSlug, artifactSlug) => {
         return getArtifactInfo(token, appSlug, buildSlug, artifactSlug)
     }
-
 }

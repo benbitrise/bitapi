@@ -1,5 +1,5 @@
 const axios = require('axios');
-const api = require('./api');
+const api = require('./client');
 
 jest.mock('axios');
 
