@@ -44,7 +44,7 @@ workflows:
         - command: 'config set ''//registry.npmjs.org/:_authToken'' "${NPM_TOKEN}"'
     - yarn@0:
       inputs:
-      - command: 'config list'
+        - command: 'config list'
     - yarn@0:
         inputs:
         - command: publish
