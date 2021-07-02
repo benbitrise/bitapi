@@ -1,28 +1,10 @@
+const apiPaginator = require('./api/paginator')
 const api = require('./api/client')
 
 const listArtifacts = async (token, appSlug, buildSlug, params = {}) => {
-    const artifacts = []
     const urlParams = new URLSearchParams()
-    if (params.next) {
-        urlParams.append('next', params.next)
-        delete params.next
-    }
-
     const path = `apps/${appSlug}/builds/${buildSlug}/artifacts`
-    const resp = await api.get(path, urlParams, token)
-    const body = resp.data
-    body.data.forEach(artifact => {
-        artifacts.push(artifact)
-    })
-
-    const next = body.paging['next']
-    if (next) {
-        params['next'] = next
-        const nextArtifacts = await listArtifacts(token, appSlug, buildSlug, params)
-        return artifacts.concat(nextArtifacts)
-    } else {
-        return artifacts
-    }
+    return apiPaginator.listItems(path, urlParams, token)
 }
 
 const getArtifactInfo = async (token, appSlug, buildSlug, artifactSlug) => {

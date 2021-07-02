@@ -1,4 +1,4 @@
-const api = require('./api/client')
+const apiPaginator = require('./api/paginator')
 
 const listBuilds = async (token, appSlug, params = {}) => {
     const path = `apps/${appSlug}/builds`
@@ -10,26 +10,7 @@ const listBuilds = async (token, appSlug, params = {}) => {
     if (params.after) {
         urlParams.append('after', params.after)
     }
-    if (params.next) {
-        urlParams.append('next', params.next)
-        delete params.next
-    }
-
-    const resp = await api.get(path, urlParams, token)
-
-    const body = resp.data
-    body.data.forEach(build => {
-        builds.push(build)
-    })
-
-    const next = body.paging['next']
-    if (next) {
-        params['next'] = next
-        const nextBuilds = await listBuilds(token, appSlug, params)
-        return builds.concat(nextBuilds)
-    } else {
-        return builds
-    }
+    return apiPaginator.listItems(path, urlParams, token)
 }
 
 module.exports = {
