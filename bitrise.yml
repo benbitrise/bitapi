@@ -38,13 +38,26 @@ workflows:
         - command: jest
     - yarn@0:
         inputs:
-        - command: 'config list'
+        - command: config list
     - yarn@0:
         inputs:
         - command: 'config set ''//registry.npmjs.org/:_authToken'' "${NPM_TOKEN}"'
     - yarn@0:
         inputs:
-        - command: 'config list'
+        - command: config list
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >>~/.npmrc
+    - yarn@0:
+        inputs:
+        - command: config list
     - yarn@0:
         inputs:
         - command: publish
