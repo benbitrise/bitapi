@@ -1,11 +1,14 @@
 const axios = require('axios');
-const rateLimit = require('axios-rate-limit');
+const Bottleneck = require('bottleneck');
 
 const baseUrl = 'https://api.bitrise.io/v0.1/';
 
+const limiter = new Bottleneck({
+  minTime: 333 // 3 requests per second
+});
+
 module.exports = {
   get: (path, params, token) => {
-    const http = rateLimit(axios.create(), { maxRPS: 3 })
     const url = new URL(`${baseUrl}${path}`);
 
     params.forEach((value, key) => {
@@ -13,6 +16,6 @@ module.exports = {
     });
     const header = { Authorization: `${token}` };
     const config = { headers: header };
-    return http.get(url.toString(), config);
+    return limiter.schedule(() => axios.get(url.toString(), config));
   },
 };
