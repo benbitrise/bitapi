@@ -6,9 +6,27 @@ trigger_map:
 - push_branch: '*'
   workflow: primary
 - pull_request_source_branch: '*'
-  workflow: primary
+  workflow: primary2
 workflows:
   primary:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6: {}
+    - cache-pull@2: {}
+    - yarn@0:
+        inputs:
+        - cache_local_deps: 'yes'
+        - command: install
+    - yarn@0:
+        inputs:
+        - command: 'run lint'
+    - yarn@0:
+        inputs:
+        - command: jest
+    - deploy-to-bitrise-io@1: {}
+    - cache-push@2: {}
+  primary2:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
