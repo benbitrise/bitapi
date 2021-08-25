@@ -13,6 +13,12 @@ workflows:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@6: {}
+    - github-status@2:
+        inputs:
+        - status_identifier: Bitrise - BitAPI
+        - set_specific_status: pending
+        - description: Started
+        - auth_token: $GITHUB_TOKEN
     - cache-pull@2: {}
     - yarn@0:
         inputs:
@@ -20,12 +26,13 @@ workflows:
         - command: install
     - yarn@0:
         inputs:
-        - command: 'run lint'
-    - yarn@0:
-        inputs:
         - command: jest
     - deploy-to-bitrise-io@1: {}
     - cache-push@2: {}
+    - github-status@2:
+        inputs:
+        - description: Done
+        - auth_token: $GITHUB_TOKEN
   release:
     steps:
     - activate-ssh-key@4:
@@ -36,9 +43,6 @@ workflows:
         inputs:
         - cache_local_deps: 'yes'
         - command: install
-    - yarn@0:
-        inputs:
-        - command: 'run lint'
     - yarn@0:
         inputs:
         - command: jest
