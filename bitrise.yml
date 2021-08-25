@@ -3,8 +3,6 @@ format_version: '11'
 default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
 project_type: other
 trigger_map:
-- push_branch: '*'
-  workflow: primary
 - pull_request_source_branch: '*'
   workflow: primary
 workflows:
@@ -15,7 +13,7 @@ workflows:
     - git-clone@6: {}
     - github-status@2:
         inputs:
-        - status_identifier: Bitrise - BitAPI
+        - status_identifier: Bitrise - Primary workflow 
         - set_specific_status: pending
         - description: Started
         - auth_token: $GITHUB_TOKEN
@@ -31,6 +29,7 @@ workflows:
     - cache-push@2: {}
     - github-status@2:
         inputs:
+        - status_identifier: Bitrise - Primary workflow 
         - description: Done
         - auth_token: $GITHUB_TOKEN
   release:
