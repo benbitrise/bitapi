@@ -13,7 +13,7 @@ workflows:
     - git-clone@6: {}
     - github-status@2:
         inputs:
-        - status_identifier: Bitrise Primary workflow 
+        - status_identifier: "Bitrise Primary workflow"
         - set_specific_status: pending
         - description: Started
         - auth_token: $GITHUB_TOKEN
@@ -29,7 +29,7 @@ workflows:
     - cache-push@2: {}
     - github-status@2:
         inputs:
-        - status_identifier: Bitrise Primary workflow 
+        - status_identifier: "Bitrise Primary workflow"
         - description: Done
         - auth_token: $GITHUB_TOKEN
   release:
