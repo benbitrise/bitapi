@@ -16,7 +16,7 @@ workflows:
         - status_identifier: "Bitrise Primary workflow"
         - set_specific_status: pending
         - description: Started
-        - auth_token: $NEW_GITHUB_TOKEN
+        - auth_token: $GITHUB_TOKEN
     - cache-pull@2: {}
     - yarn@0:
         inputs:
@@ -31,7 +31,7 @@ workflows:
         inputs:
         - status_identifier: "Bitrise Primary workflow"
         - description: Done
-        - auth_token: $NEW_GITHUB_TOKEN
+        - auth_token: $GITHUB_TOKEN
   release:
     steps:
     - activate-ssh-key@4:
