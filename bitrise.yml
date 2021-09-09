@@ -5,9 +5,21 @@ project_type: other
 trigger_map:
 - pull_request_source_branch: '*'
   workflow: primary
+- push_branch: '*'
+  workflow: primary
 workflows:
   primary:
     steps:
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug logs
+            set -x
+
+            printenv
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@6: {}
