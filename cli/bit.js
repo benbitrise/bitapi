@@ -8,4 +8,5 @@ program
   .command('init', 'Set up the cli')
   .command('config', 'Update environment settings')
   .command('build', 'Actions related to builds')
+  .command('workflow', 'Actions related to workflows')
   .parse(process.argv);
