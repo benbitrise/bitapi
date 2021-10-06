@@ -29,6 +29,7 @@ workflows:
         inputs:
         - content: |-
             #!/usr/bin/env bash
+            set +x
             echo $GITHUB_PR_IS_DRAFT
     - script@1:
         run_if: '{{getenv "GITHUB_PR_IS_DRAFT" | eq "true"}}'
@@ -37,10 +38,17 @@ workflows:
             #!/usr/bin/env bash
             echo "This is a draft PR"
     - script@1:
+        run_if: '{{ isset .GITHUB_PR_IS_DRAFT}}'
         inputs:
         - content: |-
             #!/usr/bin/env bash
-            echo "This runs every time"
+            echo "Also a draft PR"
+    - script@1:
+        run_if: '{{ not(isset .GITHUB_PR_IS_DRAFT) }}'
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            echo "Not a draft PR"
     - deploy-to-bitrise-io@1: {}
     - cache-push@2: {}
     - github-status@2:
