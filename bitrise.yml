@@ -25,6 +25,18 @@ workflows:
     - yarn@0:
         inputs:
         - command: jest
+    - script@1:
+        run_if: '{{getenv "GITHUB_PR_IS_DRAFT" | eq "true"}}'
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            echo "This is a draft PR"
+    - script@1:
+        run_if: '{{getenv "GITHUB_PR_IS_DRAFT" | eq "false"}}'
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            echo "This is PR is ready to go"
     - deploy-to-bitrise-io@1: {}
     - cache-push@2: {}
     - github-status@2:
