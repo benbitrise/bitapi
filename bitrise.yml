@@ -34,6 +34,12 @@ workflows:
         inputs:
         - command: jest
     - script@1:
+        run_if: true
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            echo "I always run"
+    - script@1:
         run_if: '{{getenv "GITHUB_PR_IS_DRAFT" | eq "true"}}'
         inputs:
         - content: |-
