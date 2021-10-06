@@ -26,25 +26,19 @@ workflows:
         inputs:
         - command: jest
     - script@1:
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            set +x
-            echo $GITHUB_PR_IS_DRAFT
-    - script@1:
         run_if: '{{getenv "GITHUB_PR_IS_DRAFT" | eq "true"}}'
         inputs:
         - content: |-
             #!/usr/bin/env bash
             echo "This is a draft PR"
     - script@1:
-        run_if: '{{ isset .GITHUB_PR_IS_DRAFT}}'
+        run_if: '{{getenv "GITHUB_PR_IS_DRAFT" | eq "" | not}}'
         inputs:
         - content: |-
             #!/usr/bin/env bash
             echo "Also a draft PR"
     - script@1:
-        run_if: '{{ not(isset .GITHUB_PR_IS_DRAFT) }}'
+        run_if: '{{getenv "GITHUB_PR_IS_DRAFT" | eq ""}}'
         inputs:
         - content: |-
             #!/usr/bin/env bash
