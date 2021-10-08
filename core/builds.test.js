@@ -1,10 +1,21 @@
 const builds = require('./builds');
 const apiPaginator = require('./api/paginator');
+const api = require('./api/client');
 
 jest.mock('./api/paginator');
+jest.mock('./api/client');
 
 beforeEach(() => {
   apiPaginator.listItems.mockReset();
+});
+
+test('should return build details', () => {
+  const resp = { data: { data: { a: 'b' } } };
+  api.get.mockImplementation(() => Promise.resolve(resp));
+
+  builds.get('token', 'appSlug', 'buildSlug').then((buildInfo) => {
+    expect(buildInfo).toEqual(resp.data.data);
+  });
 });
 
 test('should return all builds', () => {

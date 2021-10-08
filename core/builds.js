@@ -1,4 +1,11 @@
 const apiPaginator = require('./api/paginator');
+const api = require('./api/client');
+
+const getBuild = async (token, appSlug, buildSlug) => {
+  const path = `apps/${appSlug}/builds/${buildSlug}`;
+  const resp = await api.get(path, new URLSearchParams(), token);
+  return resp.data.data;
+};
 
 const listBuilds = async (token, appSlug, params = {}) => {
   const path = `apps/${appSlug}/builds`;
@@ -14,4 +21,5 @@ const listBuilds = async (token, appSlug, params = {}) => {
 
 module.exports = {
   list: (token, appSlug, params = {}) => listBuilds(token, appSlug, params),
+  get: (token, appSlug, buildSlug) => getBuild(token, appSlug, buildSlug),
 };
