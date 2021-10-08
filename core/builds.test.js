@@ -46,3 +46,17 @@ test('should pass no url params to api client if none provided', () => {
   });
   return builds.list('a', 'b', inputParams);
 });
+
+test('should trigger a build', () => {
+  const inputParams = {};
+  api.post.mockImplementation((path, body, config) => Promise.resolve({ "data": { path, body, config } }));
+  const anAppSlug = "a"
+  const aToken = "b"
+  const aWorkflowId = "c"
+  builds.trigger(aToken, anAppSlug, aWorkflowId).then((resp) => {
+    const expectedBody = { "build_params": { "workflow_id": aWorkflowId }, "hook_info": { "type": "bitrise" } }
+    expect(resp.path).toBe(`apps/${anAppSlug}/builds`)
+    expect(resp.body).toEqual(expectedBody)
+    expect(resp.config).toBe(aToken)
+  });
+});

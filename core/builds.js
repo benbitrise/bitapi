@@ -7,6 +7,21 @@ const getBuild = async (token, appSlug, buildSlug) => {
   return resp.data.data;
 };
 
+const triggerBuild = async (token, appSlug, workflowId) => {
+  const path = `apps/${appSlug}/builds`;
+  const body = {
+    "build_params": {
+      "workflow_id": workflowId
+    },
+    "hook_info": {
+      "type": "bitrise"
+    }
+  }
+
+  const resp = await api.post(path, body, token);
+  return resp.data;
+};
+
 const listBuilds = async (token, appSlug, params = {}) => {
   const path = `apps/${appSlug}/builds`;
   const urlParams = new URLSearchParams();
@@ -22,4 +37,5 @@ const listBuilds = async (token, appSlug, params = {}) => {
 module.exports = {
   list: (token, appSlug, params = {}) => listBuilds(token, appSlug, params),
   get: (token, appSlug, buildSlug) => getBuild(token, appSlug, buildSlug),
+  trigger: (token, appSlug, workflowId) => triggerBuild(token, appSlug, workflowId),
 };

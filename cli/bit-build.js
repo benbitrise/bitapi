@@ -32,6 +32,20 @@ program
     });
   });
 
+  program
+  .command('trigger')
+  .argument('<workflow-id>', 'workflow id')
+  .description('start a build')
+  .action(async (workflowId) => {
+    const token = await config.getToken();
+    const app = await config.getApp();
+    builds.trigger(token, app, workflowId).then((build) => {
+      console.log(JSON.stringify(build));
+    }).catch((e) => {
+      console.error(e.message);
+    });
+  });
+
 program.command('artifact', 'interact with artifacts from builds');
 
 program.parse(process.argv);
