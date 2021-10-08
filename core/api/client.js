@@ -18,4 +18,10 @@ module.exports = {
     const config = { headers: header };
     return limiter.schedule(() => axios.get(url.toString(), config));
   },
+  post: (path, body, token) => {
+    const url = new URL(`${baseUrl}${path}`)
+    const header = { Authorization: `${token}` };
+    const config = { headers: header };
+    return limiter.schedule(() => axios.post(url.toString(), body, config));
+  }
 };

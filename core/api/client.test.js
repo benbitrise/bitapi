@@ -19,3 +19,20 @@ test('should make get request', () => {
     expect(res.config.headers).toEqual({ Authorization: 'abc' });
   });
 });
+
+test('should make post request', () => {
+  axios.post.mockImplementation((urlString, body, config) => {
+    const url = new URL(urlString);
+    return Promise.resolve({ url, body, config });
+  });
+
+  const path = 'this_is_path';
+  const body = {"a": "b"}
+  const token = 'abc';
+
+  return api.post(path, body, token).then((res) => {
+    expect(res.url.pathname).toMatch(`${path}`);
+    expect(res.body).toEqual(body);
+    expect(res.config.headers).toEqual({ Authorization: 'abc' });
+  });
+});
