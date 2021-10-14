@@ -53,8 +53,7 @@ workflows:
             set -e
             # debug log
             set -x
-            echo $BITRISE_GIT_BRANCH
-            echo Hi
+            
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >>~/.npmrc
     - yarn@0:
         inputs:
@@ -71,6 +70,10 @@ workflows:
             set -e
             # debug log
             set -x
+
+            echo $BITRISE_GIT_BRANCH
+            echo Hi
+
             artifact_slug=$(curl -X GET "https://api.bitrise.io/v0.1/apps/$BITRISE_APP_SLUG/builds/$BITRISE_PARENT_BUILD_SLUG/artifacts" -H "accept: application/json" -H "Authorization: $PERSONAL_ACCESS_TOKEN" | jq -r ".data[0].slug")
             artifact_url=$(curl -X GET "https://api.bitrise.io/v0.1/apps/$BITRISE_APP_SLUG/builds/$BITRISE_PARENT_BUILD_SLUG/artifacts/$artifact_slug" -H "accept: application/json" -H "Authorization: $PERSONAL_ACCESS_TOKEN" | jq -r ".data.expiring_download_url")
             wget -O my_file $artifact_url
