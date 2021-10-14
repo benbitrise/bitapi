@@ -54,6 +54,7 @@ workflows:
             # debug log
             set -x
             echo $BITRISE_GIT_BRANCH
+            echo Hi
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >>~/.npmrc
     - yarn@0:
         inputs:
