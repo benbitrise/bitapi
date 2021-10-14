@@ -53,13 +53,53 @@ workflows:
             set -e
             # debug log
             set -x
-
+            echo $BITRISE_GIT_BRANCH
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >>~/.npmrc
     - yarn@0:
         inputs:
         - command: publish
     - deploy-to-bitrise-io@1: {}
     - cache-push@2: {}
+  fanout_child:
+    steps:
+    - script@1:
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+            artifact_slug=$(curl -X GET "https://api.bitrise.io/v0.1/apps/$BITRISE_APP_SLUG/builds/$BITRISE_PARENT_BUILD_SLUG/artifacts" -H "accept: application/json" -H "Authorization: $PERSONAL_ACCESS_TOKEN" | jq -r ".data[0].slug")
+            artifact_url=$(curl -X GET "https://api.bitrise.io/v0.1/apps/$BITRISE_APP_SLUG/builds/$BITRISE_PARENT_BUILD_SLUG/artifacts/$artifact_slug" -H "accept: application/json" -H "Authorization: $PERSONAL_ACCESS_TOKEN" | jq -r ".data.expiring_download_url")
+            wget -O my_file $artifact_url
+            cat my_file
+  fanout_parent:
+    steps:
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+            # in real life, you'd run xcodebuild build-for-testing
+            touch xctestrun_file
+            echo "bla" >> xctestrun_file
+        is_always_run: true
+    - set-env-var@0:
+        inputs:
+        - destination_keys: BITRISE_PARENT_BUILD_SLUG
+        - value: "$BITRISE_BUILD_SLUG"
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - deploy_path: xctestrun_file
+    - build-router-start@0:
+        inputs:
+        - access_token: "$PERSONAL_ACCESS_TOKEN"
+        - environment_key_list: BITRISE_PARENT_BUILD_SLUG
+        - workflows: fanout_child
 meta:
   bitrise.io:
     machine_type_id: standard
