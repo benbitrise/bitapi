@@ -3,7 +3,7 @@
 CLI tool for interacting with [Bitrise  API](https://api-docs.bitrise.io/#/build-artifact/artifact-show).
 
 ## Usage
-
+more garbage
 ### CLI
 `node cli/bit.js --help`
 
@@ -24,3 +24,6 @@ builds.list("token", "appSlug").then( builds => {
 ## CI
 
 CI workflow is defined in [bitrise.yml](./bitrise.yml).
+
+
+sdsdsdsdssd
