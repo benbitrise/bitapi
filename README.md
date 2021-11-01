@@ -12,7 +12,7 @@ CLI tool for interacting with [Bitrise  API](https://api-docs.bitrise.io/#/build
 `npm install bitapi`
 
 Example usage:
-
+3
 ```javascript
 const  = require('bitapi/core/builds');
 
