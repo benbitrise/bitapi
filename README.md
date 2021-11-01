@@ -24,3 +24,6 @@ builds.list("token", "appSlug").then( builds => {
 ## CI
 
 CI workflow is defined in [bitrise.yml](./bitrise.yml).
+
+
+sdsdsdsdssd
