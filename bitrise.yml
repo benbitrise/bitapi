@@ -18,6 +18,16 @@ workflows:
         - description: Started
         - auth_token: $GITHUB_TOKEN
     - cache-pull@2: {}
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            sleep 61
     - yarn@0:
         inputs:
         - cache_local_deps: 'yes'
