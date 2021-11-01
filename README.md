@@ -20,7 +20,7 @@ builds.list("token", "appSlug").then( builds => {
     console.log(JSON.stringify(builds))
 })
 ```
-
+4
 ## CI
 
 CI workflow is defined in [bitrise.yml](./bitrise.yml).
