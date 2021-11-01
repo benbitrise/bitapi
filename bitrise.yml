@@ -27,7 +27,7 @@ workflows:
             # debug log
             set -x
 
-            sleep 60
+            sleep 61
     - yarn@0:
         inputs:
         - cache_local_deps: 'yes'
