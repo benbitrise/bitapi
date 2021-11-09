@@ -9,6 +9,7 @@ program
   .command('list')
   .description('list builds for current app')
   .action(async () => {
+    // hi
     const token = await config.getToken();
     const app = await config.getApp();
     builds.list(token, app).then((list) => {
