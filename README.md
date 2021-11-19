@@ -3,7 +3,7 @@
 CLI tool for interacting with [Bitrise  API](https://api-docs.bitrise.io/#/build-artifact/artifact-show).
 
 ## Usage
-more garbage
+
 ### CLI
 `node cli/bit.js --help`
 
