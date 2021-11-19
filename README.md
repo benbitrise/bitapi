@@ -5,7 +5,15 @@ CLI tool for interacting with [Bitrise  API](https://api-docs.bitrise.io/#/build
 ## Usage
 
 ### CLI
-`node cli/bit.js --help`
+```
+node cli/bit.js --help
+node cli/bit.js init
+node cli/bit.js config 
+node cli/bit.js config app set <your_app_id>
+node cli/bit.js config token set <your_personal_access_token>
+```
+
+
 
 ### As a node module
 
